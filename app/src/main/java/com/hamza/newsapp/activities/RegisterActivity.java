@@ -102,7 +102,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("Error", Objects.requireNonNull(e.getMessage()));
-                // Handle the error
                 e.printStackTrace();
                 runOnUiThread(() -> Toast.makeText(RegisterActivity.this,
                         "Registration failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -116,13 +115,11 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this,
                                 "Registration successful!", Toast.LENGTH_SHORT).show();
 
-                        // Navigate to MainActivity
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
-                        finish(); // Close the current activity
+                        finish();
                     });
                 } else {
-                    // Handle unsuccessful response
                     runOnUiThread(() -> Toast.makeText(RegisterActivity.this,
                             "Registration failed: " + response.message(), Toast.LENGTH_SHORT).show());
                 }

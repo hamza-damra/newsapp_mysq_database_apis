@@ -35,7 +35,7 @@ public class RequestManager {
     }
 
     public void fetchSources(final RequestCallback callback) {
-        String url = "http://192.168.0.58:8080/api/sources/getAll"; // Replace with your API URL
+        String url = "http://192.168.0.58:8080/api/sources/getAll";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -63,7 +63,7 @@ public class RequestManager {
     }
 
     public void searchByQuery(String query, final RequestCallback callback) {
-        String url = "http://192.168.0.58:8080/api/sources/search?query=" + query; // Replace with your API URL
+        String url = "http://192.168.0.58:8080/api/sources/search?query=" + query;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -91,7 +91,7 @@ public class RequestManager {
     }
 
     public void fetchSourcesByCategory(String category, final RequestCallback callback) {
-        String url = "http://192.168.0.58:8080/api/sources/category/" + category; // Replace with your API URL
+        String url = "http://192.168.0.58:8080/api/sources/category/" + category;
 
         Request request = new Request.Builder()
                 .url(url)

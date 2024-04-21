@@ -22,7 +22,6 @@ public class Source {
 
     public Source(){}
 
-    // Getters and setters
     public int getId() {
         return this.id;
     }

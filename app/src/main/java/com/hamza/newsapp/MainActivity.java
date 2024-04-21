@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar toolbar;
-    private SearchView searchView;  // This is the SearchView you added directly in your layout
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         setupSwipeRefreshLayout();
         setupCategoryButtons();
-        setupSearchView();  // Set up the SearchView
+        setupSearchView();
         setSupportActionBar(toolbar);
-        requestManager = new RequestManager(); // Assume RequestManager is implemented correctly
+        requestManager = new RequestManager();
         loadSources();
     }
 

@@ -43,7 +43,7 @@ public class DetailsActivity extends AppCompatActivity {
             populateDetails(source);
         } else {
             Toast.makeText(this, "Source data not available", Toast.LENGTH_SHORT).show();
-            finish(); // Close the activity as there's no data to display
+            finish();
         }
 
         backButton.setOnClickListener(v -> finish());
@@ -55,7 +55,6 @@ public class DetailsActivity extends AppCompatActivity {
         authorTextView.setText(source.getAuthor());
         publishDateTextView.setText(source.getPublishDate());
 
-        // If there is a URL for an image, use Picasso to load it
         if (source.getUrl() != null && !source.getUrl().isEmpty()) {
             Picasso.get().load(source.getUrl()).into(imageView);
         } else {

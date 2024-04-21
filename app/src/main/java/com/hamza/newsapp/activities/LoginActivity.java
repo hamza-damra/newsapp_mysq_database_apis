@@ -42,20 +42,17 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        // Find views by ID
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonCreateAccount = findViewById(R.id.buttonCreateNewAccount);
 
-        // Handle insets and system window
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Set on click listener for the login button
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Set on click listener for the create account button
         buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,9 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                // Handle the error
                 Log.e("Error", Objects.requireNonNull(e.getMessage()));
-                // Handle unsuccessful response
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                         "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
@@ -106,18 +100,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    // Handle successful response
                     runOnUiThread(() -> {
                         Toast.makeText(LoginActivity.this,
                                 "Login successful!", Toast.LENGTH_SHORT).show();
-                        // Navigate to the MainActivity
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     });
                 } else {
                     Log.e("Error", Objects.requireNonNull(response.message()));
-                    // Handle unsuccessful response
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed: " + response.message(), Toast.LENGTH_SHORT).show());
                 }
