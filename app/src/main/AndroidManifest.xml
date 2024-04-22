@@ -15,6 +15,7 @@
         android:theme="@style/Theme.NewsApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".activities.DetailsActivity"
             android:exported="false" />
@@ -25,15 +26,13 @@
             android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false"> <!-- Set exported to false for activities not meant to be launched directly -->
-        </activity>
-        <activity
             android:name=".MainActivity"
-            android:exported="true"> <!-- Set exported to true for the main launcher activity -->
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

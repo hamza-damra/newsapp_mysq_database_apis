@@ -46,7 +46,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
         if (source.getUrl() != null && !source.getUrl().isEmpty()) {
             Picasso.get().load(source.getUrl()).error(R.drawable.not_available).into(holder.imageView);
         } else {
-            holder.imageView.setImageResource(R.drawable.ic_launcher_background);
+            holder.imageView.setImageResource(R.drawable.not_available);
         }
 
         holder.itemView.setOnClickListener(v -> {

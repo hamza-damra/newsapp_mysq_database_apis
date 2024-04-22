@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // You can implement real-time suggestions here if required
                 return false;
             }
         });
@@ -110,13 +110,11 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(List<Source> sources) {
-                Log.i("MainActivity", "Search results fetched successfully.");
                 updateAdapter(sources);
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("MainActivity", "Error during search: " + Objects.requireNonNull(e.getMessage()));
                 hideLoadingDialog();
                 showError(e.getMessage());
             }
@@ -129,13 +127,11 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(List<Source> sources) {
-                Log.i("MainActivity", "Sources fetched successfully for category: " + category);
                 updateAdapter(sources);
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("MainActivity", "Error fetching sources: " + Objects.requireNonNull(e.getMessage()));
                 hideLoadingDialog();
                 showError(e.getMessage());
             }
@@ -148,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onSuccess(List<Source> sources) {
-                Log.i("MainActivity", "Sources fetched successfully.");
                 updateAdapter(sources);
             }
 
@@ -165,11 +160,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateAdapter(List<Source> sources) {
         runOnUiThread(() -> {
             if (sources != null) {
-                Log.d("MainActivity", "Updating adapter with source count: " + sources.size());
                 adapter.setSources(sources);
                 adapter.notifyDataSetChanged();
             } else {
-                Log.e("MainActivity", "Received null sources list");
                 Toast.makeText(MainActivity.this, "No sources available", Toast.LENGTH_SHORT).show();
             }
             hideLoadingDialog();
@@ -213,16 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void logoutUser() {
-        // Handle user logout here. You might need to clear shared preferences,
-        // or any persistent storage that holds user data.
 
-        // After logout, redirect user to LoginActivity
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
     private void hideLoadingDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {
@@ -232,5 +216,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void showError(String message) {
         runOnUiThread(() -> Toast.makeText(MainActivity.this, "Error: " + message, Toast.LENGTH_LONG).show());
+    }
+
+    private void logoutUser() {
+        // Clear the login status
+        saveLoginStatus();
+
+        // Redirect to LoginActivity
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveLoginStatus() {
+        SharedPreferences preferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("IsLoggedIn", false);
+        editor.apply();
     }
 }

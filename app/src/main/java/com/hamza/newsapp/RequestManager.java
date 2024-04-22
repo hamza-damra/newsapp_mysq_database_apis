@@ -2,20 +2,15 @@ package com.hamza.newsapp;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hamza.newsapp.model.Source;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -50,8 +45,9 @@ public class RequestManager {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     String responseBody = response.body().string();
-                    Type listType = new TypeToken<ArrayList<Source>>(){}.getType();
+                    Type listType = new SourceListTypeToken().getType();
                     List<Source> sources = gson.fromJson(responseBody, listType);
 
                     postToMainThread(() -> callback.onSuccess(sources));
@@ -78,8 +74,9 @@ public class RequestManager {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     String responseBody = response.body().string();
-                    Type listType = new TypeToken<ArrayList<Source>>(){}.getType();
+                    Type listType = new SourceListTypeToken().getType();
                     List<Source> sources = gson.fromJson(responseBody, listType);
 
                     postToMainThread(() -> callback.onSuccess(sources));
@@ -106,6 +103,7 @@ public class RequestManager {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    assert response.body() != null;
                     String responseBody = response.body().string();
                     Type listType = new TypeToken<ArrayList<Source>>(){}.getType();
                     List<Source> sources = gson.fromJson(responseBody, listType);
