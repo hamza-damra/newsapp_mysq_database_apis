@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.button.MaterialButton;
+import com.hamza.newsapp.activities.AboutUsActivity;
+import com.hamza.newsapp.activities.AddNewsActivity;
 import com.hamza.newsapp.activities.LoginActivity;
 import com.hamza.newsapp.model.Source;
 
@@ -93,19 +95,23 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-              performSearch(query);
-                return true;
+              performSearch(query, false);
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                performSearch(newText, true);
                 return false;
             }
         });
     }
 
-    private void performSearch(String query) {
-        showLoadingDialog();
+    private void performSearch(String query, boolean textChange) {
+
+        if(!textChange) {
+            showLoadingDialog();
+        }
         requestManager.searchByQuery(query, new RequestManager.RequestCallback() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -162,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
             if (sources != null) {
                 adapter.setSources(sources);
                 adapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(MainActivity.this, "No sources available", Toast.LENGTH_SHORT).show();
             }
             hideLoadingDialog();
         });
@@ -188,6 +192,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
             showLogoutConfirmationDialog();
+            return true;
+        }
+        else if (item.getItemId() == R.id.action_add_news) {
+            Intent intent = new Intent(MainActivity.this, AddNewsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        else if (item.getItemId() == R.id.action_about_us) {
+            Intent intent = new Intent(MainActivity.this, AboutUsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -219,10 +233,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
-        // Clear the login status
         saveLoginStatus();
 
-        // Redirect to LoginActivity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

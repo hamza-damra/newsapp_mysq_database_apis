@@ -56,9 +56,9 @@ public class DetailsActivity extends AppCompatActivity {
         publishDateTextView.setText(source.getPublishDate());
 
         if (source.getUrl() != null && !source.getUrl().isEmpty()) {
-            Picasso.get().load(source.getUrl()).into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.ic_launcher_background);
+            Picasso.get().load(source.getUrl()).
+                    error(R.drawable.not_available).
+                    into(imageView);
         }
     }
 }

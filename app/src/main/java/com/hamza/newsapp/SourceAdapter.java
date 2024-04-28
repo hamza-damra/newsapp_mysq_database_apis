@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +43,19 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
         holder.nameTextView.setText(source.getName());
         holder.descriptionTextView.setText(source.getDescription());
 
-
         if (source.getUrl() != null && !source.getUrl().isEmpty()) {
             Picasso.get().load(source.getUrl()).error(R.drawable.not_available).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.not_available);
         }
+
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+        if (position == 0) {
+            layoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, holder.itemView.getResources().getDisplayMetrics());
+        } else {
+            layoutParams.topMargin = 0;
+        }
+        holder.itemView.setLayoutParams(layoutParams);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailsActivity.class);
@@ -55,6 +63,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
             context.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {

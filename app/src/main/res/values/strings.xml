@@ -25,4 +25,16 @@
     <string name="general">General</string>
     <string name="sports">Sports</string>
     <string name="logout">logout\n</string>
+    <string name="todo">TODO</string>
+    <string name="add_news">add news</string>
+    <string name="cancel">Cancel</string>
+    <string name="btn_add_news">Add News</string>
+    <string name="url_to_image">Url To Image</string>
+    <string name="author_name">Author Name</string>
+    <string name="add_your_new_news">Add Your New News</string>
+    <string name="et_title">Title</string>
+    <string name="et_description">Description</string>
+    <string name="about_us">about us</string>
+    <string name="this_app_was_created_by_nhamza_damra_nmohammed_farajeen_nas_a_software_project_for_the_database_course_nfor_dr_rushdi_hamamreh">This app was created by \nHamza Damra \nMohammed Farajeen \nas a software project for the Database course. \nfor Dr. Rushdi Hamamreh.</string>
+    <string name="tv_about_us">About Us</string>
 </resources>

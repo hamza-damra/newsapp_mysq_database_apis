@@ -20,6 +20,16 @@ public class Source {
         this.publishDate = publishDate;
     }
 
+    public Source(String title, String description, String urlToImage, String category, String author) {
+        this.name = title;
+        this.description = description;
+        this.url = urlToImage;
+        this.category = category;
+        this.author = author;
+    }
+
+
+
     public Source(){}
 
     public int getId() {

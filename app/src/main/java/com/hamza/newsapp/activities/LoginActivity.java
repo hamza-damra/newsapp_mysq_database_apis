@@ -15,7 +15,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.hamza.newsapp.MainActivity;
 import com.hamza.newsapp.R;
+import com.hamza.newsapp.RequestManager;
+import com.hamza.newsapp.model.Source;
+
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -67,43 +71,21 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        HttpUrl url = Objects.requireNonNull(HttpUrl.parse("http://192.168.0.58:8080/api/users/login")).newBuilder()
-                .addQueryParameter("email", email)
-                .addQueryParameter("password", password)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(new byte[0]))
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
+        RequestManager requestManager = new RequestManager(); // Assuming an instance is created here, you might want to make this a singleton or use dependency injection
+        requestManager.login(email, password, new RequestManager.RequestCallback() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e("LoginActivity", "Login request failed: " + e.getMessage(), e);
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this,
-                        "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            public void onSuccess(List<Source> sources) {
+                saveLoginStatus();
+                runOnUiThread(LoginActivity.this::startMainActivity);
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    saveLoginStatus();
-                    runOnUiThread(LoginActivity.this::startMainActivity);
-                } else {
-                    runOnUiThread(() -> {
-                        try {
-                            assert response.body() != null;
-                            Toast.makeText(LoginActivity.this,
-                                    "Login failed: " + response.body().string(), Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                }
+            public void onError(Exception e) {
+                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Login failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         });
     }
+
 
     private void saveLoginStatus() {
         SharedPreferences preferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
